@@ -53,7 +53,7 @@ export async function getSingleArticle(
     cache: "no-store",
   });
   if (!response.ok) {
-    throw new Error("Failed to fetch article");
+    throw new Error("Failed to fetch articles");
   }
   return response.json();
 }
