@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import { cookies } from "next/headers";
 import { verifyTokenForPage } from "@/utils/verifyToken";
 import LogoutButton from "./LogoutButton";
+import HeaderUsername from "../Users/HeaderUsername";
 
 const Header = () => {
   const token = cookies().get("jwtToken")?.value || "";
@@ -14,10 +15,14 @@ const Header = () => {
       <div className={styles.right}>
         {payload ? (
           <>
-            <strong className="text-blue-800 md:text-xl capitalize">
+            <Link
+              href={`/profile/${payload.id}`}
+              className="text-blue-800 font-bold md:text-xl capitalize"
+            >
               <span className={styles.welcome}>Welcome,</span>{" "}
-              {payload?.username}
-            </strong>
+              {/* {payload?.username} */}
+              <HeaderUsername params={{ id: payload.id.toString() }} />
+            </Link>
             <LogoutButton />
           </>
         ) : (

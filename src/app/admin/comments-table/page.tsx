@@ -1,5 +1,4 @@
 import { getAllComments } from "@/apiCalls/adminApiCall";
-import { verifyTokenForPage } from "@/utils/verifyToken";
 import { Comment } from "@prisma/client";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -8,8 +7,6 @@ import DeleteCommentButton from "./DeleteCommentButton";
 const ArticlesCommentsTable = async () => {
   const token = cookies().get("jwtToken")?.value;
   if (!token) redirect("/");
-  const payload = verifyTokenForPage(token);
-  if (payload?.isAdmin === false) redirect("/");
 
   const comments: Comment[] = await getAllComments(token);
 
@@ -32,7 +29,7 @@ const ArticlesCommentsTable = async () => {
                 {new Date(comment.createdAt).toDateString()}
               </td>
               <td>
-                <DeleteCommentButton commentId={comment.id}/>
+                <DeleteCommentButton commentId={comment.id} />
               </td>
             </tr>
           ))}

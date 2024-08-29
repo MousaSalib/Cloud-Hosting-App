@@ -4,6 +4,7 @@ import { verifyToken } from "@/utils/verifyToken";
 import { UpdateUserDTO } from "@/utils/dtos";
 import bcrypt from "bcryptjs";
 import { updateUserSchema } from "@/utils/validationSchemas";
+import { cookies } from "next/headers";
 
 interface Props {
   params: { id: string };
@@ -39,6 +40,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
           },
         },
       });
+      cookies().delete("jwtToken"); //Recently added
       return NextResponse.json(
         { message: "Your account has been deleted successfully" },
         { status: 200 }
@@ -70,6 +72,7 @@ export async function GET(request: NextRequest, { params }: Props) {
         id: true,
         email: true,
         username: true,
+        password: true,
         createdAt: true,
         isAdmin: true,
       },
@@ -84,6 +87,7 @@ export async function GET(request: NextRequest, { params }: Props) {
         { status: 403 }
       );
     }
+
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     return NextResponse.json(
@@ -145,3 +149,5 @@ export async function PUT(request: NextRequest, { params }: Props) {
     );
   }
 }
+
+

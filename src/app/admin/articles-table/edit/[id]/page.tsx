@@ -1,6 +1,3 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { verifyTokenForPage } from "@/utils/verifyToken";
 import { getSingleArticle } from "@/apiCalls/articleApiCall";
 import { Article } from "@prisma/client";
 import EditArticleForm from "./EditArticleForm";
@@ -9,11 +6,6 @@ interface EditArticlePageProps {
   params: { id: string };
 }
 const EditArticlePage = async ({ params }: EditArticlePageProps) => {
-  const token = cookies().get("jwtToken")?.value;
-  if (!token) redirect("/");
-  const payload = verifyTokenForPage(token);
-  if (payload?.isAdmin === false) redirect("/");
-
   const article: Article = await getSingleArticle(params.id);
 
   return (
@@ -22,7 +14,7 @@ const EditArticlePage = async ({ params }: EditArticlePageProps) => {
         <h2 className="text-2xl text-green-700 font-semibold mb-4">
           Edit Article
         </h2>
-        <EditArticleForm article={article}/>
+        <EditArticleForm article={article} />
       </div>
     </section>
   );

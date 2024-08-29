@@ -4,7 +4,7 @@ import CommentItem from "@/components/Comments/CommentItem";
 import { SingleArticle } from "@/utils/type";
 import { verifyTokenForPage } from "@/utils/verifyToken";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+
 
 interface SingleArticlePageProps {
   params: { id: string };
